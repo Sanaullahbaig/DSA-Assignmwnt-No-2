@@ -1,0 +1,54 @@
+import queue
+import threading
+import time
+import random
+
+
+def process_request(request_type):
+    processing_time = random.randint(1, 5)  
+    print(f"Processing {request_type} request. Time required: {processing_time} seconds.")
+    time.sleep(processing_time)
+    print(f"{request_type} request processed.")
+
+def worker():
+    while True:
+        request_type = request_queue.get()
+        if request_type is None:  # None indicates the end of processing
+            break
+        process_request(request_type)
+        request_queue.task_done()
+
+
+def simulate_web_server(num_requests):
+   
+    request_queue = queue.Queue()
+
+   
+    num_workers = 3
+    worker_threads = []
+    for _ in range(num_workers):
+        thread = threading.Thread(target=worker)
+        thread.start()
+        worker_threads.append(thread)
+
+   
+    request_types = ["GET", "POST", "PUT", "DELETE"]
+    for _ in range(num_requests):
+        request_type = random.choice(request_types)
+        print(f"Received {request_type} request.")
+        request_queue.put(request_type)
+
+   
+    request_queue.join()
+
+  
+    for _ in range(num_workers):
+        request_queue.put(None)
+
+   
+    for thread in worker_threads:
+        thread.join()
+
+if __name__ == "__main__":
+    num_requests = 10
+    simulate_web_server(num_requests)
