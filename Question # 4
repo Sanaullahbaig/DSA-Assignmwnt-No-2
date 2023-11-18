@@ -1,0 +1,69 @@
+Using two stacks, you can implement a queue efficiently. The basic idea is to use one stack for enqueue operations and another for dequeue operations. This approach allows you to maintain the order of elements as they would be in a queue. Let's go through the step-by-step explanation of the enqueue and dequeue operations:
+
+### Enqueue Operation:
+
+1. **Push onto Stack 1 (s1):**
+   - When an element is enqueued, push it onto Stack 1 (s1). This step ensures that the order of elements in Stack 1 corresponds to the order of enqueue operations.
+
+   ```plaintext
+   Enqueue(1):
+   s1: [1]
+   ```
+
+2. **Push onto Stack 1 for subsequent enqueues:**
+   - Subsequent enqueues involve pushing elements onto Stack 1.
+
+   ```plaintext
+   Enqueue(2):
+   s1: [1, 2]
+   ```
+
+   ```plaintext
+   Enqueue(3):
+   s1: [1, 2, 3]
+   ```
+
+### Dequeue Operation:
+
+1. **Check if Stack 2 (s2) is empty:**
+   - If Stack 2 is empty, pop all elements from Stack 1 and push them onto Stack 2. This step reverses the order of elements so that the oldest element is at the top of Stack 2.
+
+   ```plaintext
+   s1: [1, 2, 3]
+   s2: []
+   ```
+
+   - After the transfer:
+
+   ```plaintext
+   s1: []
+   s2: [3, 2, 1]
+   ```
+
+2. **Pop from Stack 2:**
+   - Pop the top element from Stack 2 to perform the dequeue operation.
+
+   ```plaintext
+   Dequeue: 1
+   s1: []
+   s2: [3, 2]
+   ```
+
+   - Subsequent dequeues will pop elements from Stack 2 directly.
+
+   ```plaintext
+   Dequeue: 2
+   s1: []
+   s2: [3]
+   ```
+
+### Summary:
+
+- **Enqueue Operation:**
+  1. Push onto Stack 1.
+
+- **Dequeue Operation:**
+  1. If Stack 2 is empty, transfer elements from Stack 1 to Stack 2.
+  2. Pop from Stack 2.
+
+This approach ensures that the oldest element is always at the front of Stack 2, simulating the behavior of a queue. The amortized time complexity of each enqueue and dequeue operation is O(1), making it an efficient implementation.
